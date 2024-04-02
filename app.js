@@ -18,7 +18,7 @@ const Manager_productRoutes=require('./routes/manager/products');
 const manager_registration = require('./routes/manager/registration');
 const chefRoutes=require('./routes/cooking_staff/chef_window');
 const menuRoutes=require('./routes/menu');
-mongoose.connect("mongodb+srv://sasyaparimi88:"+process.env.MONGO_ATLAS_PW+"@cafeflow.xuayxlv.mongodb.net/?retryWrites=true&w=majority&appName=CafeFlow")
+mongoose.connect("mongodb+srv://vercel:"+process.env.MONGO_ATLAS_PW+"@cafeflow.xuayxlv.mongodb.net/test?retryWrites=true&w=majority&appName=CafeFlow")
 .then(()=>console.log('Connected to MongoDB Atlas'))
 .catch(err=>console.log('Error connecting to MongoDB Atlas'));
 
