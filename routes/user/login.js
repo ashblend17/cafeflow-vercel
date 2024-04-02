@@ -2,6 +2,7 @@ const mongoose=require('mongoose');
 const express = require('express');
 require('dotenv').config();
 const Token=require('../../models/token');
+const rateLimit = require("express-rate-limit");
 const bcrypt=require('bcrypt');
 const {signAccessToken}=require('../../helpers/jwt_helper');
 const router = express.Router();
@@ -10,8 +11,16 @@ const Manager=require('../../models/managers')
 const chef=require('../../models/chef');
 
 
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // limit each IP to 5 requests per windowMs
+    message: "Too many login attempts from this IP, please try again later."
+  });
+
+
+
 //manager authentication
-router.post('/', async (req, res, next) => {
+router.post('/',loginLimiter, async (req, res, next) => {
     const { userId, password ,userRole} = req.body;
     if(userRole === 'manager'){
         Manager.findOne({userId}).exec()
