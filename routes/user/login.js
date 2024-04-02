@@ -135,7 +135,7 @@ router.post('/', async (req, res, next) => {
 });
 
 
-app.get('/test',async(req,res)=>{
+router.get('/test',async(req,res)=>{
     res.send('Hello');
 }
 );
