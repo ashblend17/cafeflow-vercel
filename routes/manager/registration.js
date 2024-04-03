@@ -6,7 +6,7 @@ const Token=require('../../models/token');
 require('dotenv').config();
 const User=require('../../models/managers');
 
-function waste(){
+function waste(req,res){
     res.json({message: 'waste'});
     res.end();
 }

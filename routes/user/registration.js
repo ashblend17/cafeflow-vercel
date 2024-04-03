@@ -11,7 +11,7 @@ function waste(){
     res.end();
 }
 
-router.post('/',waste, (req, res,next) => {
+router.post('/', waste,(req, res,next) => {
     const {userId,name,email,password}=req.body;
 
     if(!userId || !name || !email || !password ){

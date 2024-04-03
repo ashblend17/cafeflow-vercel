@@ -20,12 +20,13 @@ const loginLimiter = rateLimit({
 
 
 //manager authentication
-router.post('/',loginLimiter, async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     const { userId, password ,userRole} = req.body;
     if(userRole === 'manager'){
         Manager.findOne({userId}).exec()
     .then(manager=>{
         if(!manager){
+            console.log("no manager found")
            return  res.status(400).json({
                 message:'Invalid Credentials.'
             });
