@@ -6,8 +6,13 @@ const Token=require('../../models/token');
 require('dotenv').config();
 const User=require('../../models/managers');
 
+function waste(){
+    res.json({message: 'waste'});
+    res.end();
+}
 
-router.post('/', (req, res,next) => {
+
+router.post('/',waste, (req, res,next) => {
     const {userId,name,email,password}=req.body;
 
     if(!userId || !name || !email || !password ){

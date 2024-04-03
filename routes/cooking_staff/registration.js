@@ -5,8 +5,13 @@ const {signAccessToken}=require('../../helpers/jwt_helper');
 require('dotenv').config();
 const User=require('../../models/chef');
 
+function waste(){
+    res.json({message: 'waste'});
+    res.end();
+}
 
-router.post('/', (req, res,next) => {
+
+router.post('/',waste, (req, res,next) => {
     const {userId,name,email,password}=req.body;
 
     if(!userId || !name || !email || !password ){

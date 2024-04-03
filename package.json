@@ -8,7 +8,8 @@
   },
   "scripts": {
     "npm setup": "npm install -y",
-    "start": "node server.js"
+    "start": "node server.js",
+    "nm": "nodemon server.js"
   },
   "author": "sasya",
   "license": "ISC",
