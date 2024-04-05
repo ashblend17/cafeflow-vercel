@@ -7,41 +7,64 @@ const checkAuth=require('../../middleware/managerAuth');
 
 
 
-//pending orders of specific users
-router.get('/:id', checkAuth,async (req, res,next) => {
-    const userId=req.params.id;
-    try {
-        const user = await User.findOne({ userId }).exec();
-        if (!user) {
-            return res.status(400).json({
-                message: 'User not found'
-            });
-        }
-        const pendingOrders = {
-            userId: user.userId,
-            orderDetails: user.orderDetails
-            .filter(order => order.status === 'pending')
+router.get('/sale', checkAuth,(req, res,next) => {
+    User.find()
+    .exec()
+    .then(users=>{
+        const processedOrders = users.flatMap(user => {
+            return user.orderDetails
+            .filter(order => ['paid', 'ready', 'delivered'].includes(order.status))
             .map(order => ({
+                userId: user.userId,
                 date: order.date,
                 itemName: order.itemName,
                 quantity: order.quantity,
-                token:order.token
-            }))
-        };
-        return res.status(200).json({
-            message: 'orders listed of specific user',
-            orderDetails:pendingOrders
+                token:order.token,
+                totalAmount:order.totalAmount,
+                status:order.status,
+                orderId:order._id
+            }));
         });
-        
-    }
-    catch (err) {
-        console.error(err);
-        res.status(500).json({
-            message: 'Internal server error'
+        return res.status(200).json(processedOrders);
+    })
+    .catch(err=>{
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal server error.'
         });
-    };
-    
+    });
 });
+//pending orders of specific users
+// router.get('/:id', checkAuth, async (req, res, next) => {
+//     const userId = req.params.id;
+//     try {
+//         const user = await User.findOne({ userId }).exec();
+//         if (!user) {
+//             return res.status(400).json({
+//                 message: 'User not found'
+//             });
+//         }
+//         const salesOrders = user.orderDetails
+//             .filter(order => order.status === 'pending')
+//             .map(order => ({
+//                 userId: user.userId,
+//                 date: order.date,
+//                 itemName: order.itemName,
+//                 quantity: order.quantity,
+//                 token: order.token
+//             }));
+//         return res.status(200).json({
+//             message: 'orders listed of specific user',
+//             orderDetails: salesOrders
+//         });
+//     }
+//     catch (err) {
+//         console.error(err);
+//         res.status(500).json({
+//             message: 'Internal server error'
+//         });
+//     };
+// });
 
 
 
@@ -76,6 +99,7 @@ router.get('/', checkAuth,(req, res,next) => {
 });
 
 
+//get all sales
 
 
 
